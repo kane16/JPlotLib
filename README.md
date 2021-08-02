@@ -8,7 +8,6 @@ to plot input.
 There are three ways to provide data feed:
 
 - path to csv file
-- list of comma separated values
 - two-dimensional array of String values
 
 Additionally, each API entry has its requirements of additional parameters 
