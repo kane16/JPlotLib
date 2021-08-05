@@ -19,6 +19,22 @@ public class PlotConverterTest {
   }
 
   @Test
+  public void shouldArrayConversionThrowErrorWhenArgsHeaderNotExisting(){
+    String[][] values = {
+        {"Name", "Age", "Height"},
+        {"Ann", "22", "165"},
+        {"John", "13", "144"}
+    };
+
+    Optional<PlotData<String, Integer>> plotDataOpt = plotConverter.convertArrayToPlotData(
+        values,
+        new SeriesInfo("Surname", ColumnType.STRING),
+        new SeriesInfo("Height", ColumnType.INTEGER)
+        );
+    Assertions.assertTrue(plotDataOpt.isEmpty());
+  }
+
+  @Test
   public void shouldArrayBeConvertedToPlotData() {
     String[][] values = {
         {"Name", "Age", "Height"},
@@ -31,7 +47,7 @@ public class PlotConverterTest {
         new SeriesInfo("Height", ColumnType.INTEGER)
     );
     Assertions.assertTrue(plotDataOpt.isPresent());
-    PlotData<String, Integer> plotData = plotDataOpt.get();
+    PlotData plotData = plotDataOpt.get();
     Assertions.assertEquals("Name", plotData.getArgSeries().getName());
     Assertions.assertEquals(Arrays.asList("Ann", "John"), plotData.getArgSeries().getValues());
     Assertions.assertEquals("Height", plotData.getValuesSeries().getName());
