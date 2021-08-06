@@ -1,6 +1,6 @@
 package arrayops.functions;
 
-public enum GroupingFunctions {
+public enum GroupingFunction {
   MAX,
   MIN,
   AVG,

@@ -9,9 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PlotData<X, Y extends Number> {
+public class PlotData {
 
-  private Series<X> argSeries;
-  private Series<Y> valuesSeries;
+  private Series<String> argSeries;
+  private Series<Number> valuesSeries;
 
 }

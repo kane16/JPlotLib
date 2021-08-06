@@ -1,5 +1,6 @@
 package arrayops;
 
+import exception.ColumnTypeMismatchException;
 import java.util.Arrays;
 import java.util.Optional;
 import model.ColumnType;
@@ -19,6 +20,21 @@ public class PlotConverterTest {
   }
 
   @Test
+  public void shouldArrayConversionThrowConversionMismatch(){
+    String[][] values = {
+        {"Name", "Age", "Height"},
+        {"Ann", "22", "165"},
+        {"John", "13", "144"}
+    };
+
+    Assertions.assertThrows(ColumnTypeMismatchException.class, () -> plotConverter.convertArrayToPlotData(
+        values,
+        new SeriesInfo("Name", ColumnType.INTEGER),
+        new SeriesInfo("Height", ColumnType.INTEGER)
+    ));
+  }
+
+  @Test
   public void shouldArrayConversionThrowErrorWhenArgsHeaderNotExisting(){
     String[][] values = {
         {"Name", "Age", "Height"},
@@ -26,7 +42,7 @@ public class PlotConverterTest {
         {"John", "13", "144"}
     };
 
-    Optional<PlotData<String, Integer>> plotDataOpt = plotConverter.convertArrayToPlotData(
+    Optional<PlotData> plotDataOpt = plotConverter.convertArrayToPlotData(
         values,
         new SeriesInfo("Surname", ColumnType.STRING),
         new SeriesInfo("Height", ColumnType.INTEGER)
@@ -41,7 +57,7 @@ public class PlotConverterTest {
         {"Ann", "22", "165"},
         {"John", "13", "144"}
     };
-    Optional<PlotData<String, Integer>> plotDataOpt = plotConverter.convertArrayToPlotData(
+    Optional<PlotData> plotDataOpt = plotConverter.convertArrayToPlotData(
         values,
         new SeriesInfo("Name", ColumnType.STRING),
         new SeriesInfo("Height", ColumnType.INTEGER)
