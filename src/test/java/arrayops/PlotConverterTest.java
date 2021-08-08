@@ -122,9 +122,9 @@ public class PlotConverterTest {
 
   @Test
   public void shouldArrayConversionThrowErrorWhenInvalidDecimalRepresentation(){
-    Assertions.assertThrows(InvalidDecimalRepresentation.class, () -> plotConverter.parseValueToDecimalType("22.220.22"));
-    Assertions.assertThrows(InvalidDecimalRepresentation.class, () -> plotConverter.parseValueToDecimalType("22,220.22"));
-    Assertions.assertThrows(InvalidDecimalRepresentation.class, () -> plotConverter.parseValueToDecimalType("22,220,22"));
+    Assertions.assertThrows(InvalidDecimalRepresentation.class, () -> plotConverter.parseDecimalWithDefaultFormat("22.220.22"));
+    Assertions.assertThrows(InvalidDecimalRepresentation.class, () -> plotConverter.parseDecimalWithDefaultFormat("22,220.22"));
+    Assertions.assertThrows(InvalidDecimalRepresentation.class, () -> plotConverter.parseDecimalWithDefaultFormat("22,220,22"));
   }
 
 }
