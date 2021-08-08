@@ -17,7 +17,7 @@ public class CsvConnectorTest {
   }
 
   @Test
-  public void shouldReadFileCommaSuccessfullyReturnLines() throws IOException {
+  public void shouldReadFileCommaSuccessfullyReturnLines() {
     String path = getClass().getClassLoader().getResource("test-comma.csv").getPath();
     Optional<List<String>> linesOpt = csvConnector.readFromCsv(path);
     Assertions.assertTrue(linesOpt.isPresent());

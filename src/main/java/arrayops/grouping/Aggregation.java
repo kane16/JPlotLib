@@ -2,7 +2,7 @@ package arrayops.grouping;
 
 import arrayops.functions.GroupingFunction;
 import java.util.List;
-import model.ColumnType;
+import model.enums.ColumnType;
 
 public abstract class Aggregation {
 

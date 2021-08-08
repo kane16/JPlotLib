@@ -1,14 +1,16 @@
 package arrayops;
 
 import exception.ColumnTypeMismatchException;
+import exception.InvalidDecimalRepresentation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
-import model.ColumnType;
+import model.enums.ColumnType;
 import model.PlotData;
 import model.Series;
 import model.SeriesInfo;
+import model.enums.PlotType;
 
 @Slf4j
 class PlotConverter {
@@ -37,7 +39,8 @@ class PlotConverter {
       List<Number> values = extractValuesFromColumn(array, valuesIndex, valuesInfo.getColumnType());
       return Optional.of(new PlotData(
           new Series<>(argsInfo.getName(), args),
-          new Series<>(valuesInfo.getName(), values)
+          new Series<>(valuesInfo.getName(), values),
+          PlotType.STANDARD
       ));
     } else if(argsIndex == -1) {
       log.error("Args header name not valid");
@@ -56,11 +59,22 @@ class PlotConverter {
     for(int i=1; i<array.length; i++){
       if(columnType.equals(ColumnType.INTEGER)) {
         numValues.add(Integer.parseInt(array[i][valuesIndex]));
-      } else {
-        numValues.add(Double.parseDouble(array[i][valuesIndex]));
+      } else if(columnType.equals(ColumnType.DECIMAL)) {
+        numValues.add(parseValueToDecimalType(array[i][valuesIndex]));
+      }else {
+        throw new ColumnTypeMismatchException();
       }
     }
     return numValues;
+  }
+
+  double parseValueToDecimalType(String value) {
+    try {
+      String processedValue = value.replace(",", ".");
+      return Double.parseDouble(processedValue);
+    }catch(NumberFormatException exc) {
+      throw new InvalidDecimalRepresentation(value);
+    }
   }
 
   private List<String> extractArgsFromColumn(String[][] array, int argsIndex) {
