@@ -1,18 +1,19 @@
-package model;
+package model.input;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import model.enums.PlotType;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Series<T> {
+public class PlotInfo {
 
-  private String name;
-  private List<T> values;
+  private PlotType plotType;
+  private SeriesInfo argsInfo;
+  private SeriesInfo valuesInfo;
 
 }

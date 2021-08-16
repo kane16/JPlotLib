@@ -8,34 +8,47 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import model.enums.ColumnType;
-import model.PlotData;
-import model.Series;
-import model.SeriesInfo;
+import model.input.PlotInfo;
+import model.output.PlotData;
+import model.output.Series;
+import model.input.SeriesInfo;
 import model.enums.PlotType;
 
 @Slf4j
-class PlotConverter {
+@AllArgsConstructor
+abstract class PlotConverter {
 
   public static final int HEADER_INDEX = 0;
   public static final int INDEX_NOT_FOUND = -1;
 
-  public Optional<PlotData> convertArrayToPlotData(
+  private final PlotHelper plotHelper;
+
+  public abstract Optional<PlotData> parseToPlot(
       String[][] array,
-      SeriesInfo argsInfo,
-      SeriesInfo valuesInfo
+      PlotInfo plotInfo
+  );
+
+  Optional<PlotData> convertArrayToPlotData(
+      String[][] array,
+      PlotInfo plotInfo
   ) {
     Optional<PlotData> plotDataOpt = Optional.empty();
-    int argsIndex = getIndex(array, argsInfo.getName());
-    int valuesIndex = getIndex(array, valuesInfo.getName());
-    if( plotHeadersFound(argsIndex, valuesIndex) ) {
+    int argsIndex = getIndex(array, plotInfo.getArgsInfo().getName());
+    int valuesIndex = getIndex(array, plotInfo.getValuesInfo().getName());
+    if (plotHeadersFound(argsIndex, valuesIndex)) {
       List<String> args = extractArgsFromColumn(array, argsIndex);
-      List<Number> values = extractValuesFromColumn(array, valuesIndex, valuesInfo.getColumnType());
+      List<Number> values = extractValuesFromColumn(
+          array,
+          valuesIndex,
+          plotInfo.getValuesInfo().getColumnType()
+      );
       return Optional.of(new PlotData(
-          new Series<>(argsInfo.getName(), args),
-          new Series<>(valuesInfo.getName(), values),
-          PlotType.STANDARD
+          new Series<>(plotInfo.getArgsInfo().getName(), args),
+          new Series<>(plotInfo.getValuesInfo().getName(), values),
+          plotInfo.getPlotType()
       ));
     }
     return plotDataOpt;
@@ -47,9 +60,9 @@ class PlotConverter {
       ColumnType columnType
   ) {
     List<Number> numValues = new ArrayList<>();
-    if(containsAnyData(array)) {
-      for(int i=1; i<array.length; i++){
-        switch(columnType) {
+    if (containsAnyData(array)) {
+      for (int i = 1; i < array.length; i++) {
+        switch (columnType) {
           case INTEGER:
             numValues.add(Integer.parseInt(array[i][valuesIndex]));
             break;
@@ -64,24 +77,24 @@ class PlotConverter {
     return numValues;
   }
 
-  private int getIndex(String[][] array, String headerName){
+  private int getIndex(String[][] array, String headerName) {
     return IntStream.range(0, array[HEADER_INDEX].length)
         .filter(i -> array[HEADER_INDEX][i].equals(headerName))
         .findFirst().orElse(-1);
   }
 
-  private boolean containsAnyData(String[][] array){
+  private boolean containsAnyData(String[][] array) {
     boolean containsAnyData = array != null && array.length > 1;
-    if(!containsAnyData){
+    if (!containsAnyData) {
       log.warn("No data found for array");
     }
     return containsAnyData;
   }
 
   private boolean plotHeadersFound(int argsColumnIndex, int valuesColumnIndex) {
-    if(argsColumnIndex == INDEX_NOT_FOUND) {
+    if (argsColumnIndex == INDEX_NOT_FOUND) {
       log.error("Args header name not valid");
-    } else if(valuesColumnIndex == INDEX_NOT_FOUND) {
+    } else if (valuesColumnIndex == INDEX_NOT_FOUND) {
       log.error("Values header name not valid");
     }
     return argsColumnIndex != INDEX_NOT_FOUND && valuesColumnIndex != INDEX_NOT_FOUND;
@@ -91,7 +104,7 @@ class PlotConverter {
     try {
       String processedValue = value.replace(",", ".");
       return Double.parseDouble(processedValue);
-    }catch(NumberFormatException exc) {
+    } catch (NumberFormatException exc) {
       throw new InvalidDecimalRepresentation(value);
     }
   }

@@ -1,4 +1,4 @@
-package model;
+package model.output;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,5 +15,9 @@ public class PlotData {
   private Series<String> argSeries;
   private Series<Number> valuesSeries;
   private PlotType plotType;
+
+  public boolean isEmpty(){
+    return valuesSeries.getValues().isEmpty();
+  }
 
 }

@@ -3,8 +3,7 @@ package arrayops;
 import arrayops.functions.GroupingFunction;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import model.PlotData;
+import model.output.PlotData;
 
 public class GroupingConverter {
 

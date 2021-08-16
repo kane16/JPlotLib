@@ -5,8 +5,10 @@ import exception.InvalidDecimalRepresentation;
 import java.util.Arrays;
 import java.util.Optional;
 import model.enums.ColumnType;
-import model.PlotData;
-import model.SeriesInfo;
+import model.enums.PlotType;
+import model.input.PlotInfo;
+import model.output.PlotData;
+import model.input.SeriesInfo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,47 +25,67 @@ public class PlotConverterTest {
 
   @BeforeEach
   public void setUp() {
-    plotConverter = new PlotConverter();
+    PlotHelper plotHelper = new PlotHelper();
+    plotConverter = new StandardPlotConverter(plotHelper);
   }
 
   @Test
-  public void shouldArrayConversionThrowConversionMismatch(){
+  public void shouldArrayConversionThrowConversionMismatch() {
 
-    Assertions.assertThrows(ColumnTypeMismatchException.class, () -> plotConverter.convertArrayToPlotData(
-        VALUES,
+    PlotInfo plotInfo = new PlotInfo(
+        PlotType.STANDARD,
         new SeriesInfo("Name", ColumnType.STRING),
         new SeriesInfo("Height", ColumnType.STRING)
-    ));
+    );
+    Assertions.assertThrows(
+        ColumnTypeMismatchException.class,
+        () -> plotConverter.convertArrayToPlotData(
+            VALUES,
+            plotInfo
+        )
+    );
   }
 
   @Test
-  public void shouldArrayConversionThrowErrorWhenArgsHeaderNotExisting(){
+  public void shouldArrayConversionThrowErrorWhenArgsHeaderNotExisting() {
 
-    Optional<PlotData> plotDataOpt = plotConverter.convertArrayToPlotData(
-        VALUES,
+    PlotInfo plotInfo = new PlotInfo(
+        PlotType.STANDARD,
         new SeriesInfo("Surname", ColumnType.STRING),
         new SeriesInfo("Height", ColumnType.INTEGER)
+    );
+    Optional<PlotData> plotDataOpt = plotConverter.convertArrayToPlotData(
+        VALUES,
+        plotInfo
         );
     Assertions.assertTrue(plotDataOpt.isEmpty());
   }
 
   @Test
-  public void shouldArrayConversionThrowErrorWhenValuesHeaderNotExisting(){
+  public void shouldArrayConversionThrowErrorWhenValuesHeaderNotExisting() {
 
-    Optional<PlotData> plotDataOpt = plotConverter.convertArrayToPlotData(
-        VALUES,
+    PlotInfo plotInfo = new PlotInfo(
+        PlotType.STANDARD,
         new SeriesInfo("Name", ColumnType.STRING),
         new SeriesInfo("LowHeight", ColumnType.INTEGER)
+    );
+    Optional<PlotData> plotDataOpt = plotConverter.convertArrayToPlotData(
+        VALUES,
+        plotInfo
     );
     Assertions.assertTrue(plotDataOpt.isEmpty());
   }
 
   @Test
   public void shouldArrayBeConvertedToPlotDataCorrectlyWithStringArgs() {
-    Optional<PlotData> plotDataOpt = plotConverter.convertArrayToPlotData(
-        VALUES,
+    PlotInfo plotInfo = new PlotInfo(
+        PlotType.STANDARD,
         new SeriesInfo("Name", ColumnType.STRING),
         new SeriesInfo("Height", ColumnType.INTEGER)
+    );
+    Optional<PlotData> plotDataOpt = plotConverter.convertArrayToPlotData(
+        VALUES,
+        plotInfo
     );
     Assertions.assertTrue(plotDataOpt.isPresent());
     PlotData plotData = plotDataOpt.get();
@@ -75,10 +97,14 @@ public class PlotConverterTest {
 
   @Test
   public void shouldArrayBeConvertedToPlotDataCorrectlyWithIntArgs() {
-    Optional<PlotData> plotDataOpt = plotConverter.convertArrayToPlotData(
-        VALUES,
+    PlotInfo plotInfo = new PlotInfo(
+        PlotType.STANDARD,
         new SeriesInfo("Age", ColumnType.INTEGER),
         new SeriesInfo("Height", ColumnType.INTEGER)
+    );
+    Optional<PlotData> plotDataOpt = plotConverter.convertArrayToPlotData(
+        VALUES,
+        plotInfo
     );
     Assertions.assertTrue(plotDataOpt.isPresent());
     PlotData plotData = plotDataOpt.get();
@@ -89,13 +115,16 @@ public class PlotConverterTest {
   }
 
 
-
   @Test
   public void shouldArrayBeConvertedToPlotDataCorrectlyWithDecimalValuesCommaSeparator() {
-    Optional<PlotData> plotDataOpt = plotConverter.convertArrayToPlotData(
-        VALUES,
+    PlotInfo plotInfo = new PlotInfo(
+        PlotType.STANDARD,
         new SeriesInfo("Name", ColumnType.STRING),
         new SeriesInfo("Grade", ColumnType.DECIMAL)
+    );
+    Optional<PlotData> plotDataOpt = plotConverter.convertArrayToPlotData(
+        VALUES,
+        plotInfo
     );
     Assertions.assertTrue(plotDataOpt.isPresent());
     PlotData plotData = plotDataOpt.get();
@@ -107,10 +136,14 @@ public class PlotConverterTest {
 
   @Test
   public void shouldArrayBeConvertedToPlotDataCorrectlyWithDecimalValuesDotSeparator() {
-    Optional<PlotData> plotDataOpt = plotConverter.convertArrayToPlotData(
-        VALUES,
+    PlotInfo plotInfo = new PlotInfo(
+        PlotType.STANDARD,
         new SeriesInfo("Name", ColumnType.STRING),
         new SeriesInfo("Reward", ColumnType.DECIMAL)
+    );
+    Optional<PlotData> plotDataOpt = plotConverter.convertArrayToPlotData(
+        VALUES,
+        plotInfo
     );
     Assertions.assertTrue(plotDataOpt.isPresent());
     PlotData plotData = plotDataOpt.get();
@@ -121,10 +154,19 @@ public class PlotConverterTest {
   }
 
   @Test
-  public void shouldArrayConversionThrowErrorWhenInvalidDecimalRepresentation(){
-    Assertions.assertThrows(InvalidDecimalRepresentation.class, () -> plotConverter.parseDecimalWithDefaultFormat("22.220.22"));
-    Assertions.assertThrows(InvalidDecimalRepresentation.class, () -> plotConverter.parseDecimalWithDefaultFormat("22,220.22"));
-    Assertions.assertThrows(InvalidDecimalRepresentation.class, () -> plotConverter.parseDecimalWithDefaultFormat("22,220,22"));
+  public void shouldArrayConversionThrowErrorWhenInvalidDecimalRepresentation() {
+    Assertions.assertThrows(
+        InvalidDecimalRepresentation.class,
+        () -> plotConverter.parseDecimalWithDefaultFormat("22.220.22")
+    );
+    Assertions.assertThrows(
+        InvalidDecimalRepresentation.class,
+        () -> plotConverter.parseDecimalWithDefaultFormat("22,220.22")
+    );
+    Assertions.assertThrows(
+        InvalidDecimalRepresentation.class,
+        () -> plotConverter.parseDecimalWithDefaultFormat("22,220,22")
+    );
   }
 
 }
