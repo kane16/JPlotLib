@@ -11,6 +11,6 @@ import model.enums.ColumnType;
 @Getter
 @Setter
 public class SeriesInfo {
-  String name;
+  String columnName;
   ColumnType columnType;
 }

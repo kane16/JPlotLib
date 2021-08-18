@@ -22,10 +22,11 @@ public class PlotConverterTest {
   };
 
   private PlotConverter plotConverter;
+  private PlotHelper plotHelper;
 
   @BeforeEach
   public void setUp() {
-    PlotHelper plotHelper = new PlotHelper();
+    plotHelper = new PlotHelper();
     plotConverter = new StandardPlotConverter(plotHelper);
   }
 
@@ -157,15 +158,15 @@ public class PlotConverterTest {
   public void shouldArrayConversionThrowErrorWhenInvalidDecimalRepresentation() {
     Assertions.assertThrows(
         InvalidDecimalRepresentation.class,
-        () -> plotConverter.parseDecimalWithDefaultFormat("22.220.22")
+        () -> plotHelper.parseDecimalWithDefaultFormat("22.220.22")
     );
     Assertions.assertThrows(
         InvalidDecimalRepresentation.class,
-        () -> plotConverter.parseDecimalWithDefaultFormat("22,220.22")
+        () -> plotHelper.parseDecimalWithDefaultFormat("22,220.22")
     );
     Assertions.assertThrows(
         InvalidDecimalRepresentation.class,
-        () -> plotConverter.parseDecimalWithDefaultFormat("22,220,22")
+        () -> plotHelper.parseDecimalWithDefaultFormat("22,220,22")
     );
   }
 

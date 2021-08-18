@@ -7,14 +7,7 @@ import model.output.PlotData;
 
 public class GroupingConverter {
 
-  public Optional<PlotData> groupValuesByGroupingFunction(
-      Optional<PlotData> plotDataOpt,
-      GroupingFunction groupingFunction
-      ) {
-    return plotDataOpt.map(plotData -> groupValuesByGroupingFunction(plotData, groupingFunction));
-  }
-
-  private PlotData groupValuesByGroupingFunction(
+  public PlotData groupValuesByGroupingFunction(
       PlotData plotData,
       GroupingFunction groupingFunction
   ) {
