@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class GroupingConverterTest {
+public class GroupingPlotConverterTest {
 
   PlotHelper plotHelper;
   PlotConverter plotConverter;
@@ -43,7 +43,7 @@ public class GroupingConverterTest {
 
   @Test
   public void shouldInvalidPlotCheckThrowError() {
-    Optional<PlotData> invalidPlotData = plotConverter.convertArrayToPlotData(
+    Optional<PlotData> invalidPlotData = plotHelper.convertArrayToPlotData(
         invalidPlot1,
         new PlotInfo(
             PlotType.STANDARD,
@@ -59,7 +59,7 @@ public class GroupingConverterTest {
 
   @Test
   public void shouldValidCheckReturnStandard() {
-    Optional<PlotData> standardPlotData = plotConverter.convertArrayToPlotData(
+    Optional<PlotData> standardPlotData = plotHelper.convertArrayToPlotData(
         standardPlot,
         new PlotInfo(
             PlotType.STANDARD,
@@ -72,7 +72,7 @@ public class GroupingConverterTest {
 
   @Test
   public void shouldValidCheckReturnAggregation() {
-    Optional<PlotData> aggregationPlotData = plotConverter.convertArrayToPlotData(
+    Optional<PlotData> aggregationPlotData = plotHelper.convertArrayToPlotData(
         aggregationPlot,
         new PlotInfo(
             PlotType.AGGREGATION,

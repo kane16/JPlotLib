@@ -7,6 +7,7 @@ import exception.InvalidDecimalRepresentation;
 import exception.InvalidPlotRepresentation;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -15,6 +16,7 @@ import model.enums.ColumnType;
 import model.enums.PlotType;
 import model.input.PlotInfo;
 import model.output.PlotData;
+import model.output.Series;
 
 @Slf4j
 public class PlotHelper {
@@ -31,6 +33,27 @@ public class PlotHelper {
     } else {
       throw new InvalidPlotRepresentation();
     }
+  }
+
+  Optional<PlotData> convertArrayToPlotData(
+      String[][] array,
+      PlotInfo plotInfo
+  ) {
+    Optional<PlotData> plotDataOpt = Optional.empty();
+    if (plotHeadersFound(array, plotInfo)) {
+      List<String> args = extractArgsFromColumn(array, plotInfo.getArgsInfo().getColumnName());
+      List<Number> values = extractValuesFromColumn(
+          array,
+          getIndex(array, plotInfo.getValuesInfo().getColumnName()),
+          plotInfo.getValuesInfo().getColumnType()
+      );
+      return Optional.of(new PlotData(
+          new Series<>(plotInfo.getArgsInfo().getColumnName(), args),
+          new Series<>(plotInfo.getValuesInfo().getColumnName(), values),
+          plotInfo.getPlotType()
+      ));
+    }
+    return plotDataOpt;
   }
 
   private boolean isAggregation(PlotData plotData) {

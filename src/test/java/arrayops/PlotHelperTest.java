@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class PlotConverterTest {
+public class PlotHelperTest {
 
   public static final String[][] VALUES = new String[][]{
       {"Name", "Age", "Height", "Grade", "Reward"},
@@ -21,13 +21,11 @@ public class PlotConverterTest {
       {"John", "13", "144", "3,5", "100.0"}
   };
 
-  private PlotConverter plotConverter;
   private PlotHelper plotHelper;
 
   @BeforeEach
   public void setUp() {
     plotHelper = new PlotHelper();
-    plotConverter = new StandardPlotConverter(plotHelper);
   }
 
   @Test
@@ -40,7 +38,7 @@ public class PlotConverterTest {
     );
     Assertions.assertThrows(
         ColumnTypeMismatchException.class,
-        () -> plotConverter.convertArrayToPlotData(
+        () -> plotHelper.convertArrayToPlotData(
             VALUES,
             plotInfo
         )
@@ -55,7 +53,7 @@ public class PlotConverterTest {
         new SeriesInfo("Surname", ColumnType.STRING),
         new SeriesInfo("Height", ColumnType.INTEGER)
     );
-    Optional<PlotData> plotDataOpt = plotConverter.convertArrayToPlotData(
+    Optional<PlotData> plotDataOpt = plotHelper.convertArrayToPlotData(
         VALUES,
         plotInfo
         );
@@ -70,7 +68,7 @@ public class PlotConverterTest {
         new SeriesInfo("Name", ColumnType.STRING),
         new SeriesInfo("LowHeight", ColumnType.INTEGER)
     );
-    Optional<PlotData> plotDataOpt = plotConverter.convertArrayToPlotData(
+    Optional<PlotData> plotDataOpt = plotHelper.convertArrayToPlotData(
         VALUES,
         plotInfo
     );
@@ -84,7 +82,7 @@ public class PlotConverterTest {
         new SeriesInfo("Name", ColumnType.STRING),
         new SeriesInfo("Height", ColumnType.INTEGER)
     );
-    Optional<PlotData> plotDataOpt = plotConverter.convertArrayToPlotData(
+    Optional<PlotData> plotDataOpt = plotHelper.convertArrayToPlotData(
         VALUES,
         plotInfo
     );
@@ -103,7 +101,7 @@ public class PlotConverterTest {
         new SeriesInfo("Age", ColumnType.INTEGER),
         new SeriesInfo("Height", ColumnType.INTEGER)
     );
-    Optional<PlotData> plotDataOpt = plotConverter.convertArrayToPlotData(
+    Optional<PlotData> plotDataOpt = plotHelper.convertArrayToPlotData(
         VALUES,
         plotInfo
     );
@@ -123,7 +121,7 @@ public class PlotConverterTest {
         new SeriesInfo("Name", ColumnType.STRING),
         new SeriesInfo("Grade", ColumnType.DECIMAL)
     );
-    Optional<PlotData> plotDataOpt = plotConverter.convertArrayToPlotData(
+    Optional<PlotData> plotDataOpt = plotHelper.convertArrayToPlotData(
         VALUES,
         plotInfo
     );
@@ -142,7 +140,7 @@ public class PlotConverterTest {
         new SeriesInfo("Name", ColumnType.STRING),
         new SeriesInfo("Reward", ColumnType.DECIMAL)
     );
-    Optional<PlotData> plotDataOpt = plotConverter.convertArrayToPlotData(
+    Optional<PlotData> plotDataOpt = plotHelper.convertArrayToPlotData(
         VALUES,
         plotInfo
     );

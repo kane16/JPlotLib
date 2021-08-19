@@ -19,26 +19,5 @@ abstract class PlotConverter {
       PlotInfo plotInfo
   );
 
-  Optional<PlotData> convertArrayToPlotData(
-      String[][] array,
-      PlotInfo plotInfo
-  ) {
-    Optional<PlotData> plotDataOpt = Optional.empty();
-    if (plotHelper.plotHeadersFound(array, plotInfo)) {
-      List<String> args = plotHelper.extractArgsFromColumn(array, plotInfo.getArgsInfo().getColumnName());
-      List<Number> values = plotHelper.extractValuesFromColumn(
-          array,
-          plotHelper.getIndex(array, plotInfo.getValuesInfo().getColumnName()),
-          plotInfo.getValuesInfo().getColumnType()
-      );
-      return Optional.of(new PlotData(
-          new Series<>(plotInfo.getArgsInfo().getColumnName(), args),
-          new Series<>(plotInfo.getValuesInfo().getColumnName(), values),
-          plotInfo.getPlotType()
-      ));
-    }
-    return plotDataOpt;
-  }
-
 
 }
