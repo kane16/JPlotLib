@@ -1,18 +1,17 @@
-package arrayops;
+package arrayops.mapper;
 
-import java.util.List;
+import arrayops.transformation.ArrayTransformationHelper;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import model.input.PlotInfo;
 import model.output.PlotData;
-import model.output.Series;
 
 @Slf4j
 @AllArgsConstructor
-abstract class PlotConverter {
+abstract class DataMapper {
 
-  private final PlotHelper plotHelper;
+  private final ArrayTransformationHelper arrayTransformationHelper;
 
   public abstract Optional<PlotData> parseToPlot(
       String[][] array,

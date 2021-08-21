@@ -1,5 +1,8 @@
-package arrayops;
+package arrayops.mapper;
 
+import arrayops.mapper.DataMapper;
+import arrayops.mapper.StandardDataMapper;
+import arrayops.transformation.ArrayTransformationHelper;
 import exception.InvalidPlotRepresentation;
 import java.util.Optional;
 import model.enums.ColumnType;
@@ -11,10 +14,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class GroupingPlotConverterTest {
+public class StandardDataMapperTest {
 
-  PlotHelper plotHelper;
-  PlotConverter plotConverter;
+  ArrayTransformationHelper arrayTransformationHelper;
+  DataMapper dataMapper;
 
   private String[][] standardPlot = {
       {"Name", "Hour"},
@@ -37,13 +40,13 @@ public class GroupingPlotConverterTest {
 
   @BeforeEach
   public void setUp() {
-    plotHelper = new PlotHelper();
-    plotConverter = new StandardPlotConverter(plotHelper);
+    arrayTransformationHelper = new ArrayTransformationHelper();
+    dataMapper = new StandardDataMapper(arrayTransformationHelper);
   }
 
   @Test
   public void shouldInvalidPlotCheckThrowError() {
-    Optional<PlotData> invalidPlotData = plotHelper.convertArrayToPlotData(
+    Optional<PlotData> invalidPlotData = arrayTransformationHelper.convertArrayToPlotData(
         invalidPlot1,
         new PlotInfo(
             PlotType.STANDARD,
@@ -53,13 +56,13 @@ public class GroupingPlotConverterTest {
     );
     Assertions.assertThrows(
         InvalidPlotRepresentation.class,
-        () -> plotHelper.resolvePlotType(invalidPlotData.get())
+        () -> arrayTransformationHelper.resolvePlotType(invalidPlotData.get())
     );
   }
 
   @Test
   public void shouldValidCheckReturnStandard() {
-    Optional<PlotData> standardPlotData = plotHelper.convertArrayToPlotData(
+    Optional<PlotData> standardPlotData = arrayTransformationHelper.convertArrayToPlotData(
         standardPlot,
         new PlotInfo(
             PlotType.STANDARD,
@@ -67,12 +70,12 @@ public class GroupingPlotConverterTest {
             new SeriesInfo("Hour", ColumnType.INTEGER)
         )
     );
-    Assertions.assertEquals(PlotType.STANDARD, plotHelper.resolvePlotType(standardPlotData.get()));
+    Assertions.assertEquals(PlotType.STANDARD, arrayTransformationHelper.resolvePlotType(standardPlotData.get()));
   }
 
   @Test
   public void shouldValidCheckReturnAggregation() {
-    Optional<PlotData> aggregationPlotData = plotHelper.convertArrayToPlotData(
+    Optional<PlotData> aggregationPlotData = arrayTransformationHelper.convertArrayToPlotData(
         aggregationPlot,
         new PlotInfo(
             PlotType.AGGREGATION,
@@ -80,7 +83,7 @@ public class GroupingPlotConverterTest {
             new SeriesInfo("Score", ColumnType.INTEGER)
         )
     );
-    Assertions.assertEquals(PlotType.AGGREGATION, plotHelper.resolvePlotType(aggregationPlotData.get()));
+    Assertions.assertEquals(PlotType.AGGREGATION, arrayTransformationHelper.resolvePlotType(aggregationPlotData.get()));
   }
 
 }

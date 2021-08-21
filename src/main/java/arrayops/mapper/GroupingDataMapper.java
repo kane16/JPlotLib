@@ -1,15 +1,16 @@
-package arrayops;
+package arrayops.mapper;
 
+import arrayops.transformation.ArrayTransformationHelper;
 import arrayops.functions.GroupingFunction;
 import java.util.List;
 import java.util.Optional;
 import model.input.PlotInfo;
 import model.output.PlotData;
 
-public class GroupingPlotConverter extends PlotConverter{
+public class GroupingDataMapper extends DataMapper {
 
-  public GroupingPlotConverter(PlotHelper plotHelper) {
-    super(plotHelper);
+  public GroupingDataMapper(ArrayTransformationHelper arrayTransformationHelper) {
+    super(arrayTransformationHelper);
   }
 
   @Override

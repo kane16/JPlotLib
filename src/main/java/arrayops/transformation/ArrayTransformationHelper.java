@@ -1,4 +1,4 @@
-package arrayops;
+package arrayops.transformation;
 
 import static java.util.stream.Collectors.toList;
 
@@ -19,23 +19,12 @@ import model.output.PlotData;
 import model.output.Series;
 
 @Slf4j
-public class PlotHelper {
+public class ArrayTransformationHelper extends TransformationHelper {
 
   public static final int HEADER_INDEX = 0;
   public static final int INDEX_NOT_FOUND = -1;
 
-  PlotType resolvePlotType(PlotData plotData){
-    if (!plotData.isEmpty()) {
-      if (isAggregation(plotData)) {
-        return PlotType.AGGREGATION;
-      }
-      return PlotType.STANDARD;
-    } else {
-      throw new InvalidPlotRepresentation();
-    }
-  }
-
-  Optional<PlotData> convertArrayToPlotData(
+  public Optional<PlotData> convertArrayToPlotData(
       String[][] array,
       PlotInfo plotInfo
   ) {
@@ -54,19 +43,6 @@ public class PlotHelper {
       ));
     }
     return plotDataOpt;
-  }
-
-  private boolean isAggregation(PlotData plotData) {
-    return plotData.getArgSeries().getValues().stream()
-        .collect(
-            Collectors.groupingBy(
-                Function.identity(),
-                Collectors.reducing(0, x -> 1, Integer::sum)
-            )
-        )
-        .entrySet()
-        .stream()
-        .anyMatch(entry -> entry.getValue() > 1);
   }
 
   List<Number> extractValuesFromColumn(

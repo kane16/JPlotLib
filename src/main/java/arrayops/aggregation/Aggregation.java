@@ -1,4 +1,4 @@
-package arrayops.grouping;
+package arrayops.aggregation;
 
 import arrayops.functions.GroupingFunction;
 import java.util.List;

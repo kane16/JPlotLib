@@ -1,5 +1,6 @@
-package arrayops;
+package arrayops.transformation;
 
+import arrayops.transformation.ArrayTransformationHelper;
 import exception.ColumnTypeMismatchException;
 import exception.InvalidDecimalRepresentation;
 import java.util.Arrays;
@@ -13,7 +14,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class PlotHelperTest {
+public class ArrayTransformationHelperTest {
 
   public static final String[][] VALUES = new String[][]{
       {"Name", "Age", "Height", "Grade", "Reward"},
@@ -21,11 +22,11 @@ public class PlotHelperTest {
       {"John", "13", "144", "3,5", "100.0"}
   };
 
-  private PlotHelper plotHelper;
+  private ArrayTransformationHelper arrayTransformationHelper;
 
   @BeforeEach
   public void setUp() {
-    plotHelper = new PlotHelper();
+    arrayTransformationHelper = new ArrayTransformationHelper();
   }
 
   @Test
@@ -38,7 +39,7 @@ public class PlotHelperTest {
     );
     Assertions.assertThrows(
         ColumnTypeMismatchException.class,
-        () -> plotHelper.convertArrayToPlotData(
+        () -> arrayTransformationHelper.convertArrayToPlotData(
             VALUES,
             plotInfo
         )
@@ -53,7 +54,7 @@ public class PlotHelperTest {
         new SeriesInfo("Surname", ColumnType.STRING),
         new SeriesInfo("Height", ColumnType.INTEGER)
     );
-    Optional<PlotData> plotDataOpt = plotHelper.convertArrayToPlotData(
+    Optional<PlotData> plotDataOpt = arrayTransformationHelper.convertArrayToPlotData(
         VALUES,
         plotInfo
         );
@@ -68,7 +69,7 @@ public class PlotHelperTest {
         new SeriesInfo("Name", ColumnType.STRING),
         new SeriesInfo("LowHeight", ColumnType.INTEGER)
     );
-    Optional<PlotData> plotDataOpt = plotHelper.convertArrayToPlotData(
+    Optional<PlotData> plotDataOpt = arrayTransformationHelper.convertArrayToPlotData(
         VALUES,
         plotInfo
     );
@@ -82,7 +83,7 @@ public class PlotHelperTest {
         new SeriesInfo("Name", ColumnType.STRING),
         new SeriesInfo("Height", ColumnType.INTEGER)
     );
-    Optional<PlotData> plotDataOpt = plotHelper.convertArrayToPlotData(
+    Optional<PlotData> plotDataOpt = arrayTransformationHelper.convertArrayToPlotData(
         VALUES,
         plotInfo
     );
@@ -101,7 +102,7 @@ public class PlotHelperTest {
         new SeriesInfo("Age", ColumnType.INTEGER),
         new SeriesInfo("Height", ColumnType.INTEGER)
     );
-    Optional<PlotData> plotDataOpt = plotHelper.convertArrayToPlotData(
+    Optional<PlotData> plotDataOpt = arrayTransformationHelper.convertArrayToPlotData(
         VALUES,
         plotInfo
     );
@@ -121,7 +122,7 @@ public class PlotHelperTest {
         new SeriesInfo("Name", ColumnType.STRING),
         new SeriesInfo("Grade", ColumnType.DECIMAL)
     );
-    Optional<PlotData> plotDataOpt = plotHelper.convertArrayToPlotData(
+    Optional<PlotData> plotDataOpt = arrayTransformationHelper.convertArrayToPlotData(
         VALUES,
         plotInfo
     );
@@ -140,7 +141,7 @@ public class PlotHelperTest {
         new SeriesInfo("Name", ColumnType.STRING),
         new SeriesInfo("Reward", ColumnType.DECIMAL)
     );
-    Optional<PlotData> plotDataOpt = plotHelper.convertArrayToPlotData(
+    Optional<PlotData> plotDataOpt = arrayTransformationHelper.convertArrayToPlotData(
         VALUES,
         plotInfo
     );
@@ -156,15 +157,15 @@ public class PlotHelperTest {
   public void shouldArrayConversionThrowErrorWhenInvalidDecimalRepresentation() {
     Assertions.assertThrows(
         InvalidDecimalRepresentation.class,
-        () -> plotHelper.parseDecimalWithDefaultFormat("22.220.22")
+        () -> arrayTransformationHelper.parseDecimalWithDefaultFormat("22.220.22")
     );
     Assertions.assertThrows(
         InvalidDecimalRepresentation.class,
-        () -> plotHelper.parseDecimalWithDefaultFormat("22,220.22")
+        () -> arrayTransformationHelper.parseDecimalWithDefaultFormat("22,220.22")
     );
     Assertions.assertThrows(
         InvalidDecimalRepresentation.class,
-        () -> plotHelper.parseDecimalWithDefaultFormat("22,220,22")
+        () -> arrayTransformationHelper.parseDecimalWithDefaultFormat("22,220,22")
     );
   }
 

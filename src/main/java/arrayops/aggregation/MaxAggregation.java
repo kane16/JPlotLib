@@ -1,20 +1,19 @@
-package arrayops.grouping;
+package arrayops.aggregation;
 
 import arrayops.functions.GroupingFunction;
 import java.util.List;
 
-public class AvgAggregation extends Aggregation{
+public class MaxAggregation extends Aggregation{
 
   @Override
   public GroupingFunction getGroupingFunction() {
-    return GroupingFunction.AVG;
+    return GroupingFunction.MAX;
   }
 
   @Override
   public Number performGrouping(List<Number> values) {
     return values.stream()
         .mapToDouble(Number::doubleValue)
-        .average().orElse(0.0);
+        .max().orElse(0.0);
   }
-
 }

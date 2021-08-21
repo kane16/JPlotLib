@@ -1,19 +1,19 @@
-package arrayops.grouping;
+package arrayops.aggregation;
 
 import arrayops.functions.GroupingFunction;
 import java.util.List;
 
-public class MinAggregation extends Aggregation {
+public class SumAggregation extends Aggregation {
 
   @Override
   public GroupingFunction getGroupingFunction() {
-    return GroupingFunction.MIN;
+    return GroupingFunction.SUM;
   }
 
   @Override
   public Number performGrouping(List<Number> values) {
     return values.stream()
         .mapToDouble(Number::doubleValue)
-        .min().orElse(0.0);
+        .sum();
   }
 }
