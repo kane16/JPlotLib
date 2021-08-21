@@ -1,8 +1,11 @@
 package arrayops.transformation;
 
+import exception.ColumnTypeMismatchException;
+import exception.InvalidDecimalRepresentation;
 import exception.InvalidPlotRepresentation;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import model.enums.ColumnType;
 import model.enums.PlotType;
 import model.output.PlotData;
 
@@ -30,6 +33,26 @@ public abstract class TransformationHelper {
         .entrySet()
         .stream()
         .anyMatch(entry -> entry.getValue() > 1);
+  }
+
+  protected Number parseValueToColumnType(ColumnType columnType, String value) {
+    switch (columnType) {
+      case INTEGER:
+        return Integer.parseInt(value);
+      case DECIMAL:
+        return parseDecimalWithDefaultFormat(value);
+      default:
+        throw new ColumnTypeMismatchException();
+    }
+  }
+
+  double parseDecimalWithDefaultFormat(String value) {
+    try {
+      String processedValue = value.replace(",", ".");
+      return Double.parseDouble(processedValue);
+    } catch (NumberFormatException exc) {
+      throw new InvalidDecimalRepresentation(value);
+    }
   }
 
 }

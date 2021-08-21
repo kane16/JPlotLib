@@ -53,16 +53,8 @@ public class ArrayTransformationHelper extends TransformationHelper {
     List<Number> numValues = new ArrayList<>();
     if (containsAnyData(array)) {
       for (int i = 1; i < array.length; i++) {
-        switch (columnType) {
-          case INTEGER:
-            numValues.add(Integer.parseInt(array[i][valuesIndex]));
-            break;
-          case DECIMAL:
-            numValues.add(parseDecimalWithDefaultFormat(array[i][valuesIndex]));
-            break;
-          default:
-            throw new ColumnTypeMismatchException();
-        }
+        String cellValue = array[i][valuesIndex];
+        numValues.add(parseValueToColumnType(columnType, cellValue));
       }
     }
     return numValues;
@@ -91,15 +83,6 @@ public class ArrayTransformationHelper extends TransformationHelper {
       log.error("Values header name not valid");
     }
     return argsColumnIndex != INDEX_NOT_FOUND && valuesColumnIndex != INDEX_NOT_FOUND;
-  }
-
-  double parseDecimalWithDefaultFormat(String value) {
-    try {
-      String processedValue = value.replace(",", ".");
-      return Double.parseDouble(processedValue);
-    } catch (NumberFormatException exc) {
-      throw new InvalidDecimalRepresentation(value);
-    }
   }
 
   List<String> extractArgsFromColumn(String[][] array, String argsColumnName) {

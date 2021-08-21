@@ -1,30 +1,26 @@
 package arrayops.mapper;
 
-import arrayops.transformation.ArrayTransformationHelper;
+import arrayops.aggregation.AggregationService;
 import arrayops.functions.GroupingFunction;
-import java.util.List;
+import arrayops.transformation.ArrayTransformationHelper;
+import arrayops.transformation.TransformationHelper;
 import java.util.Optional;
 import model.input.PlotInfo;
 import model.output.PlotData;
 
 public class GroupingDataMapper extends DataMapper {
 
-  public GroupingDataMapper(ArrayTransformationHelper arrayTransformationHelper) {
-    super(arrayTransformationHelper);
+  private final AggregationService aggregationService;
+
+  public GroupingDataMapper(AggregationService aggregationService) {
+    this.aggregationService = aggregationService;
   }
 
-  @Override
-  public Optional<PlotData> parseToPlot(String[][] array, PlotInfo plotInfo) {
-    return Optional.empty();
-  }
-
-  public PlotData groupValuesByGroupingFunction(
-      PlotData plotData,
+  public Optional<PlotData> groupValuesByGroupingFunction(
+      Optional<PlotData> plotData,
       GroupingFunction groupingFunction
   ) {
-    List<String> args = plotData.getArgSeries().getValues();
-    List<Number> values = plotData.getValuesSeries().getValues();
-    return null;
+    return Optional.empty();
   }
 
 }

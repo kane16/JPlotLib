@@ -41,7 +41,7 @@ public class StandardDataMapperTest {
   @BeforeEach
   public void setUp() {
     arrayTransformationHelper = new ArrayTransformationHelper();
-    dataMapper = new StandardDataMapper(arrayTransformationHelper);
+    dataMapper = new StandardDataMapper();
   }
 
   @Test
