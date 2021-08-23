@@ -1,8 +1,8 @@
 package arrayops.transformation;
 
-import arrayops.transformation.ArrayTransformationHelper;
 import exception.ColumnTypeMismatchException;
 import exception.InvalidDecimalRepresentation;
+import exception.InvalidPlotRepresentation;
 import java.util.Arrays;
 import java.util.Optional;
 import model.enums.ColumnType;
@@ -20,6 +20,25 @@ public class ArrayTransformationHelperTest {
       {"Name", "Age", "Height", "Grade", "Reward"},
       {"Ann", "22", "165", "4,5", "1000.0"},
       {"John", "13", "144", "3,5", "100.0"}
+  };
+
+  private final String[][] STANDARD_PLOT_VALUES = {
+      {"Name", "Hour"},
+      {"First", "1"},
+      {"Second", "2"}
+  };
+
+
+  private final String[][] AGGREGATION_PLOT_VALUES = {
+      {"Name", "Score"},
+      {"Ann", "9"},
+      {"Adam", "10"},
+      {"Ann", "11"},
+      {"Adam", "8"}
+  };
+
+  private final String[][] INVALID_PLOT = {
+      {"Name", "Surname"}
   };
 
   private ArrayTransformationHelper arrayTransformationHelper;
@@ -167,6 +186,48 @@ public class ArrayTransformationHelperTest {
         InvalidDecimalRepresentation.class,
         () -> arrayTransformationHelper.parseDecimalWithDefaultFormat("22,220,22")
     );
+  }
+
+  @Test
+  public void shouldInvalidPlotCheckThrowError() {
+    Optional<PlotData> invalidPlotData = arrayTransformationHelper.convertArrayToPlotData(
+        INVALID_PLOT,
+        new PlotInfo(
+            PlotType.STANDARD,
+            new SeriesInfo("Name", ColumnType.STRING),
+            new SeriesInfo("Surname", ColumnType.STRING)
+        )
+    );
+    Assertions.assertThrows(
+        InvalidPlotRepresentation.class,
+        () -> arrayTransformationHelper.resolvePlotType(invalidPlotData.get())
+    );
+  }
+
+  @Test
+  public void shouldValidCheckReturnStandard() {
+    Optional<PlotData> standardPlotData = arrayTransformationHelper.convertArrayToPlotData(
+        STANDARD_PLOT_VALUES,
+        new PlotInfo(
+            PlotType.STANDARD,
+            new SeriesInfo("Name", ColumnType.STRING),
+            new SeriesInfo("Hour", ColumnType.INTEGER)
+        )
+    );
+    Assertions.assertEquals(PlotType.STANDARD, arrayTransformationHelper.resolvePlotType(standardPlotData.get()));
+  }
+
+  @Test
+  public void shouldValidCheckReturnAggregation() {
+    Optional<PlotData> aggregationPlotData = arrayTransformationHelper.convertArrayToPlotData(
+        AGGREGATION_PLOT_VALUES,
+        new PlotInfo(
+            PlotType.AGGREGATION,
+            new SeriesInfo("Name", ColumnType.STRING),
+            new SeriesInfo("Score", ColumnType.INTEGER)
+        )
+    );
+    Assertions.assertEquals(PlotType.AGGREGATION, arrayTransformationHelper.resolvePlotType(aggregationPlotData.get()));
   }
 
 }

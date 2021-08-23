@@ -37,8 +37,10 @@ public class ArrayTransformationHelper extends TransformationHelper {
           plotInfo.getValuesInfo().getColumnType()
       );
       return Optional.of(new PlotData(
-          new Series<>(plotInfo.getArgsInfo().getColumnName(), args),
-          new Series<>(plotInfo.getValuesInfo().getColumnName(), values),
+          args,
+          values,
+          plotInfo.getArgsInfo().getColumnName(),
+          plotInfo.getValuesInfo().getColumnName(),
           plotInfo.getPlotType()
       ));
     }

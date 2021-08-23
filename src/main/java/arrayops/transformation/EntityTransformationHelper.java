@@ -35,8 +35,10 @@ public class EntityTransformationHelper extends TransformationHelper {
                 ))
                 .collect(toList());
         plotDataOpt = Optional.of(new PlotData(
-            new Series<>(argsColumnName, args),
-            new Series<>(valuesColumnName, values),
+            args,
+            values,
+            argsColumnName,
+            valuesColumnName,
             plotInfo.getPlotType()
         ));
       } catch (NoSuchFieldException | IllegalAccessException e) {
