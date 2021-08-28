@@ -1,15 +1,11 @@
 package model.input;
 
-import plotops.functions.GroupingFunction;
 import java.util.Optional;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import model.enums.PlotType;
+import plotops.functions.GroupingFunction;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 public class PlotInfo {

@@ -10,9 +10,6 @@ public abstract class Aggregation {
 
   public Number aggregate(List<Number> values, ColumnType columnType) {
     Number groupResult = performGrouping(values);
-    if(columnType.equals(ColumnType.INTEGER)) {
-      return groupResult.intValue();
-    }
     return groupResult.doubleValue();
   }
 

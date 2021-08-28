@@ -1,5 +1,6 @@
 package plotops.mapper;
 
+import exception.NoGroupingFunctionProvidedException;
 import plotops.aggregation.AggregationService;
 import model.enums.PlotType;
 import model.input.PlotInfo;
@@ -22,6 +23,6 @@ public class GroupingDataMapper implements DataMapper {
   public PlotData mapPlotData(PlotData plotData, PlotInfo plotInfo) {
     if(plotInfo.getGroupingFunction().isPresent()) {
       return aggregationService.performAggregation(plotData, plotInfo);
-    } else throw new NullPointerException();
+    } else throw new NoGroupingFunctionProvidedException();
   }
 }
