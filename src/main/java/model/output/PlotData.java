@@ -39,7 +39,7 @@ public class PlotData {
   }
 
   public boolean isEmpty() {
-    return valuesSeries.getValues().isEmpty();
+    return valuesSeries.getValues().isEmpty() || argSeries.getValues().isEmpty();
   }
 
 }

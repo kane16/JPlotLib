@@ -1,6 +1,6 @@
 package model.input;
 
-import arrayops.functions.GroupingFunction;
+import plotops.functions.GroupingFunction;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
