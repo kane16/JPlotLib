@@ -37,13 +37,24 @@ public class EntityTransformationHelper extends TransformationHelper {
     } catch (NoSuchFieldException | IllegalAccessException e) {
       throw new FieldNotFoundException("Values", valuesColumnName);
     }
+    List<String> columns = readEntityColumns(entityClass);
     return new PlotData(
         args,
         values,
         argsColumnName,
         valuesColumnName,
-        plotInfo.getPlotType()
+        plotInfo.getPlotType(),
+        columns
     );
+  }
+
+  private <T> List<String> readEntityColumns(Class<T> entityClass) {
+    Field[] fields = entityClass.getDeclaredFields();
+    List<String> entityColumns = new ArrayList<>();
+    for(Field field: fields) {
+      entityColumns.add(field.getName());
+    }
+    return entityColumns;
   }
 
   private <T> List<String> extractValuesFromFieldName(

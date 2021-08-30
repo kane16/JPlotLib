@@ -86,6 +86,7 @@ public class ArrayPlotDataBuilderTest {
     assertEquals("Hour", plotData.getValuesSeries().getName());
     assertIterableEquals(Arrays.asList("First", "Second"), plotData.getArgSeries().getValues());
     assertIterableEquals(Arrays.asList(1, 2), plotData.getValuesSeries().getValues());
+    assertIterableEquals(Arrays.asList("Name", "Hour"), plotData.getColumns());
   }
 
   @Test

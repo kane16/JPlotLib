@@ -18,30 +18,35 @@ public class PlotData {
   private Series<Number> valuesSeries;
   private Map<String, List<Number>> argsWithValuesMap;
   private PlotType plotType;
+  private List<String> columns;
 
   public PlotData(
       List<String> args,
       List<Number> values,
       String argsHeaderName,
       String valuesHeaderName,
-      PlotType plotType
+      PlotType plotType,
+      List<String> columns
   ) {
     this.argsWithValuesMap = getEntriesMap(args, values);
     this.argSeries = new Series<>(argsHeaderName, args);
     this.valuesSeries = new Series<>(valuesHeaderName, values);
     this.plotType = plotType;
+    this.columns = columns;
   }
 
   public PlotData(
       Map<String, List<Number>> valuesMap,
       String argsHeaderName,
       String valuesHeaderName,
-      PlotType plotType
+      PlotType plotType,
+      List<String> columns
   ) {
     this.argsWithValuesMap = valuesMap;
     this.argSeries = new Series<>(argsHeaderName, getArgsFromMap(valuesMap));
     this.valuesSeries = new Series<>(valuesHeaderName, getValuesFromMap(valuesMap));
     this.plotType = plotType;
+    this.columns = columns;
   }
 
   private List<String> getArgsFromMap(Map<String, List<Number>> valuesMap) {

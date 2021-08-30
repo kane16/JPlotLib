@@ -38,6 +38,7 @@ public class CsvPlotDataBuilderTest {
     assertEquals("Age", plotData.getValuesSeries().getName());
     assertIterableEquals(Arrays.asList("Ann", "John"), plotData.getArgSeries().getValues());
     assertIterableEquals(Arrays.asList(22, 13), plotData.getValuesSeries().getValues());
+    assertIterableEquals(Arrays.asList("Name", "Age", "Height"), plotData.getColumns());
   }
 
   @Test
@@ -60,6 +61,7 @@ public class CsvPlotDataBuilderTest {
     assertEquals("Age", plotData.getValuesSeries().getName());
     assertIterableEquals(Arrays.asList("Ann", "John"), plotData.getArgSeries().getValues());
     assertIterableEquals(Arrays.asList(22, 13), plotData.getValuesSeries().getValues());
+    assertIterableEquals(Arrays.asList("Name", "Age", "Height"), plotData.getColumns());
   }
 
   @Test

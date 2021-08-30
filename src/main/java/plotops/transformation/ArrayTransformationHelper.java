@@ -4,6 +4,7 @@ import static java.util.stream.Collectors.toList;
 
 import exception.ColumnNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 import lombok.extern.slf4j.Slf4j;
@@ -28,16 +29,23 @@ public class ArrayTransformationHelper extends TransformationHelper {
           getIndex(array, plotInfo.getValuesInfo().getColumnName()),
           plotInfo.getValuesInfo().getColumnType()
       );
+      List<String> columns = extractColumnNames(array);
       return new PlotData(
           args,
           values,
           plotInfo.getArgsInfo().getColumnName(),
           plotInfo.getValuesInfo().getColumnName(),
-          plotInfo.getPlotType()
+          plotInfo.getPlotType(),
+          columns
       );
     } else {
       return null;
     }
+  }
+
+  private List<String> extractColumnNames(String[][] array) {
+    String[] headerArray = array[0];
+    return Arrays.asList(headerArray);
   }
 
   List<Number> extractValuesFromColumn(

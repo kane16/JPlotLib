@@ -48,10 +48,11 @@ public class EntityPlotDataBuilderTest {
         plotData.getArgSeries().getValues(),
         Arrays.asList("Adam", "Natalie")
     );
-    Assertions.assertIterableEquals(plotData.getValuesSeries().getValues(), Arrays.asList(22, 33));
-    Assertions.assertEquals(plotData.getValuesSeries().getName(), "age");
-    Assertions.assertEquals(plotData.getArgSeries().getName(), "name");
-    Assertions.assertEquals(plotData.getPlotType(), PlotType.STANDARD);
+    Assertions.assertIterableEquals(Arrays.asList(22, 33), plotData.getValuesSeries().getValues());
+    Assertions.assertEquals("age", plotData.getValuesSeries().getName());
+    Assertions.assertEquals("name", plotData.getArgSeries().getName());
+    Assertions.assertEquals(PlotType.STANDARD, plotData.getPlotType());
+    Assertions.assertIterableEquals(Arrays.asList("name", "age"), plotData.getColumns());
   }
 
 }

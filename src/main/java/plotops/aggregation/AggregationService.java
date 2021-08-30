@@ -34,7 +34,8 @@ public class AggregationService {
         aggregatedValuesMap,
         plotInfo.getArgsInfo().getColumnName(),
         plotInfo.getValuesInfo().getColumnName(),
-        plotInfo.getPlotType()
+        plotInfo.getPlotType(),
+        plotData.getColumns()
     );
   }
 
