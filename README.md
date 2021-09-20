@@ -9,6 +9,7 @@ There are three ways to provide data feed:
 
 - path to csv file
 - two-dimensional array of String values
+- entity list
 
 Additionally, each API entry has its requirements of additional parameters 
 needed for transformations and conversions.
@@ -21,8 +22,13 @@ Library gives the following capabilities:
 and values
 - Grouping values by arguments
 - Choosing function for grouping values: MAX, MIN, SUM, AVG
-- Validation of proper inputs, type conversion and function 
-application possibility
+- Validation of inputs, type conversion and aggregation type choice
+
+## API entry
+
+User of the library should use PlotDataBuilder as an entry. This class should be the used as the **only** 
+way to assemble the PlotData object, as this way it's assured that input data, info and aggregation type
+are valid and suitable to the transformation user want to make.
 
 ## Licence
 

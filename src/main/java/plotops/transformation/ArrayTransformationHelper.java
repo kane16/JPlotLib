@@ -16,6 +16,9 @@ import model.output.PlotData;
 public class ArrayTransformationHelper extends TransformationHelper {
 
   public static final int HEADER_INDEX = 0;
+  /**
+   * The constant representing invalid index.
+   */
   public static final int INDEX_NOT_FOUND = -1;
 
   public PlotData convertArrayToPlotData(

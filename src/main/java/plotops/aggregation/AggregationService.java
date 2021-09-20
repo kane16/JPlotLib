@@ -12,9 +12,15 @@ import model.input.PlotInfo;
 import model.output.PlotData;
 import plotops.functions.GroupingFunction;
 
+/**
+ * The Aggregation service.
+ */
 @Slf4j
 public class AggregationService {
 
+  /**
+   * The Aggregation type map.
+   */
   Map<GroupingFunction, Aggregation> aggregationMap = Map.ofEntries(
       Map.entry(GroupingFunction.AVG, new AvgAggregation()),
       Map.entry(GroupingFunction.MAX, new MaxAggregation()),
@@ -22,6 +28,13 @@ public class AggregationService {
       Map.entry(GroupingFunction.SUM, new SumAggregation())
   );
 
+  /**
+   * Perform aggregation on plot data.
+   *
+   * @param plotData raw plot data
+   * @param plotInfo the plot info
+   * @return the plot data
+   */
   public PlotData performAggregation(PlotData plotData, PlotInfo plotInfo) {
     Map<String, List<Number>> aggregatedValuesMap = plotData.getArgsWithValuesMap().entrySet()
         .stream()

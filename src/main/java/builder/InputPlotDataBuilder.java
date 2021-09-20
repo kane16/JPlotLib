@@ -13,6 +13,10 @@ import model.enums.PlotType;
 import model.input.PlotInfo;
 import model.output.PlotData;
 
+
+/**
+ * Partial builder to fill input data needed for plot data creation.
+ */
 public class InputPlotDataBuilder {
 
   PlotInfo plotInfo;

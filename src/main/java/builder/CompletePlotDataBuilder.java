@@ -2,6 +2,9 @@ package builder;
 
 import model.output.PlotData;
 
+/**
+ * End partial builder.
+ */
 public class CompletePlotDataBuilder {
 
   PlotData plotData;

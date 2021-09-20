@@ -10,6 +10,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import model.enums.PlotType;
 
+/**
+ * The type Plot data.
+ */
 @Getter
 @NoArgsConstructor
 public class PlotData {
@@ -20,6 +23,16 @@ public class PlotData {
   private PlotType plotType;
   private List<String> columns;
 
+  /**
+   * Instantiates a new Plot data.
+   *
+   * @param args             the args
+   * @param values           the values
+   * @param argsHeaderName   the args header name
+   * @param valuesHeaderName the values header name
+   * @param plotType         the plot type
+   * @param columns          the columns
+   */
   public PlotData(
       List<String> args,
       List<Number> values,
@@ -35,6 +48,15 @@ public class PlotData {
     this.columns = columns;
   }
 
+  /**
+   * Instantiates a new Plot data.
+   *
+   * @param valuesMap        the values map
+   * @param argsHeaderName   the args header name
+   * @param valuesHeaderName the values header name
+   * @param plotType         the plot type
+   * @param columns          the columns
+   */
   public PlotData(
       Map<String, List<Number>> valuesMap,
       String argsHeaderName,
@@ -69,6 +91,11 @@ public class PlotData {
         ));
   }
 
+  /**
+   * Check if Plot Data series values are empty.
+   *
+   * @return the boolean
+   */
   public boolean isEmpty() {
     return valuesSeries.getValues().isEmpty() || argSeries.getValues().isEmpty();
   }

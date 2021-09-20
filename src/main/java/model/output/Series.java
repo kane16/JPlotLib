@@ -6,6 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * The generic Series.
+ *
+ * @param <T> the type parameter
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
