@@ -2,8 +2,16 @@ plugins {
     id 'java'
 }
 
+apply plugin: 'signing'
+apply plugin: 'maven-publish'
+
 group 'pl.delukesoft'
 version '1.0.0'
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
 
 repositories {
     mavenCentral()
@@ -11,6 +19,54 @@ repositories {
 
 sourceCompatibility = '11'
 targetCompatibility = '11'
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            group 'pl.delukesoft'
+            artifactId = 'JPlotLib'
+            version '1.0.0'
+            from components.java
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+            pom {
+                name = 'JPlotLib'
+                description = 'Main goal of the library is to provide simple API for data preparation to plot input.'
+                url = 'https://github.com/kane16/JPlotLib'
+                licenses {
+                    license {
+                        name = 'MIT'
+                        url = 'https://choosealicense.com/licenses/mit/'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'kane16'
+                        name = 'Lukasz Guminski'
+                        email = 'lukasz.guminski629@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git@github.com:kane16/JPlotLib.git'
+                    developerConnection = 'scm:git@github.com:kane16/JPlotLib.git'
+                    url = 'https://github.com/kane16/JPlotLib'
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+
+            url = "https://s01.oss.sonatype.org"
+        }
+    }
+}
 
 dependencies {
     implementation 'ch.qos.logback:logback-classic:1.2.5'
