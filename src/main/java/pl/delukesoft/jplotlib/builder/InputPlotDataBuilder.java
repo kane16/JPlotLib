@@ -19,55 +19,25 @@ import pl.delukesoft.jplotlib.model.output.PlotData;
  */
 public class InputPlotDataBuilder {
 
-  PlotInfo plotInfo;
-
-  public InputPlotDataBuilder(PlotInfo plotInfo) {
-    this.plotInfo = plotInfo;
+  public PlotInfoDataBuilder<String> withArray(String array[][]) {
+    return new PlotInfoDataBuilder<String>(array);
   }
 
-  public CompletePlotDataBuilder withArray(String array[][]) {
-    ArrayTransformationHelper transformationHelper = new ArrayTransformationHelper();
-    PlotData plotData = transformationHelper.convertArrayToPlotData(array, plotInfo);
-    PlotData mappedPlotData = mapData(plotData, plotInfo);
-    return new CompletePlotDataBuilder(mappedPlotData);
+  public <T> PlotInfoDataBuilder<T> withEntityList(List<T> entityList, Class<T> entityClass) {
+    return new PlotInfoDataBuilder<T>(entityList, entityClass);
   }
 
-  public <T> CompletePlotDataBuilder withEntityList(List<T> entityList, Class<T> entityClass) {
-    EntityTransformationHelper transformationHelper = new EntityTransformationHelper();
-    PlotData plotData = transformationHelper.convertEntityListToPlotData(entityList, entityClass, plotInfo);
-    PlotData mappedPlotData = mapData(plotData, plotInfo);
-    return new CompletePlotDataBuilder(mappedPlotData);
-  }
-
-  public CompletePlotDataBuilder withFilePathAndDelimiter(String absolutePath, String delimiter){
+  public <T> PlotInfoDataBuilder<T> withFilePathAndDelimiter(String absolutePath, String delimiter){
     CsvConnector csvConnector = new CsvConnector();
     String[][] array = csvConnector.readFromCsv(absolutePath, delimiter);
-    ArrayTransformationHelper transformationHelper = new ArrayTransformationHelper();
-    PlotData plotData = transformationHelper.convertArrayToPlotData(array, plotInfo);
-    PlotData mappedPlotData = mapData(plotData, plotInfo);
-    return new CompletePlotDataBuilder(mappedPlotData);
+    return new PlotInfoDataBuilder<T>(array);
   }
 
-  public CompletePlotDataBuilder withFilePath(String absolutePath) {
-    return withFilePathAndDelimiter(absolutePath, ",");
+  public <T> PlotInfoDataBuilder<T> withFilePath(String absolutePath) {
+    CsvConnector csvConnector = new CsvConnector();
+    String[][] array = csvConnector.readFromCsv(absolutePath, ",");
+    return new PlotInfoDataBuilder<T>(array);
   }
 
-  private PlotData mapData(PlotData plotData, PlotInfo plotInfo) {
-    PlotType plotType = TransformationHelper.resolvePlotType(plotData);
-    if(plotInfo.getPlotType() == plotType) {
-      if(plotType == PlotType.AGGREGATION) {
-        AggregationService aggregationService = new AggregationService();
-        GroupingDataMapper groupingDataMapper = new GroupingDataMapper(aggregationService);
-        return groupingDataMapper.mapPlotData(plotData, plotInfo);
-      }if(plotType == PlotType.STANDARD) {
-        StandardDataMapper standardDataMapper = new StandardDataMapper();
-        return standardDataMapper.mapPlotData(plotData, plotInfo);
-      } else {
-        throw new InvalidPlotTypeProvided();
-      }
-    } else {
-      throw new InvalidPlotTypeProvided();
-    }
-  }
 
 }

@@ -1,19 +1,22 @@
 package pl.delukesoft.jplotlib.builderflow;
 
-import pl.delukesoft.jplotlib.builder.PlotDataBuilder;
-import pl.delukesoft.jplotlib.exception.FieldNotFoundException;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import pl.delukesoft.jplotlib.builder.PlotDataBuilder;
+import pl.delukesoft.jplotlib.builder.PlotInfoDataBuilder;
+import pl.delukesoft.jplotlib.exception.FieldNotFoundException;
 import pl.delukesoft.jplotlib.model.Person;
 import pl.delukesoft.jplotlib.model.enums.ColumnType;
 import pl.delukesoft.jplotlib.model.enums.PlotType;
 import pl.delukesoft.jplotlib.model.input.PlotInfo;
 import pl.delukesoft.jplotlib.model.input.SeriesInfo;
 import pl.delukesoft.jplotlib.model.output.PlotData;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 public class EntityPlotDataBuilderTest {
 
@@ -25,8 +28,8 @@ public class EntityPlotDataBuilderTest {
         new SeriesInfo("Value", ColumnType.INTEGER)
     );
     Assertions.assertThrows(FieldNotFoundException.class, () -> PlotDataBuilder.builder()
-        .withPlotInfo(plotInfo)
         .withEntityList(Collections.emptyList(), Person.class)
+        .withPlotInfo(plotInfo)
         .build());
   }
 
@@ -41,8 +44,8 @@ public class EntityPlotDataBuilderTest {
     personList.add(new Person("Adam", 22));
     personList.add(new Person("Natalie", 33));
     PlotData plotData = PlotDataBuilder.builder()
-        .withPlotInfo(plotInfo)
         .withEntityList(personList, Person.class)
+        .withPlotInfo(plotInfo)
         .build();
     Assertions.assertIterableEquals(
         plotData.getArgSeries().getValues(),
@@ -53,6 +56,16 @@ public class EntityPlotDataBuilderTest {
     Assertions.assertEquals("name", plotData.getArgSeries().getName());
     Assertions.assertEquals(PlotType.STANDARD, plotData.getPlotType());
     Assertions.assertIterableEquals(Arrays.asList("name", "age"), plotData.getColumns());
+  }
+
+  @Test
+  public void shouldExtractCorrectlyEntityFields() {
+    List<Person> personList = new ArrayList<>();
+    personList.add(new Person("Adam", 22));
+    personList.add(new Person("Natalie", 33));
+    PlotInfoDataBuilder<Person> builder = PlotDataBuilder.builder()
+        .withEntityList(personList, Person.class);
+    assertIterableEquals(Arrays.asList("name", "age"), builder.extractColumns());
   }
 
 }

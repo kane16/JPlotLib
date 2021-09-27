@@ -5,7 +5,7 @@ plugins {
 apply plugin: 'signing'
 apply plugin: 'maven-publish'
 
-def appVersion = '1.0.2'
+def appVersion = '1.0.3'
 def artifactName = 'jplotlib'
 def groupName = 'pl.delukesoft'
 

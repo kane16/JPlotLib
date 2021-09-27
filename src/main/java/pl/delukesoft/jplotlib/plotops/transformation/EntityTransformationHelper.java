@@ -48,7 +48,7 @@ public class EntityTransformationHelper extends TransformationHelper {
     );
   }
 
-  private <T> List<String> readEntityColumns(Class<T> entityClass) {
+  public <T> List<String> readEntityColumns(Class<T> entityClass) {
     Field[] fields = entityClass.getDeclaredFields();
     List<String> entityColumns = new ArrayList<>();
     for(Field field: fields) {

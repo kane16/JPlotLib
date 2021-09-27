@@ -5,7 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.Collections;
 import pl.delukesoft.jplotlib.builder.PlotDataBuilder;
+import pl.delukesoft.jplotlib.builder.PlotInfoDataBuilder;
 import pl.delukesoft.jplotlib.exception.InvalidPlotTypeProvided;
 import pl.delukesoft.jplotlib.exception.NoGroupingFunctionProvidedException;
 import java.util.Arrays;
@@ -45,8 +47,8 @@ public class ArrayPlotDataBuilderTest {
     assertThrows(
         InvalidPlotTypeProvided.class,
         () -> PlotDataBuilder.builder()
-            .withPlotInfo(plotInfo)
             .withArray(AGGREGATION_PLOT_VALUES)
+            .withPlotInfo(plotInfo)
             .build()
     );
   }
@@ -62,8 +64,8 @@ public class ArrayPlotDataBuilderTest {
     assertThrows(
         InvalidPlotTypeProvided.class,
         () -> PlotDataBuilder.builder()
-            .withPlotInfo(plotInfo)
             .withArray(STANDARD_PLOT_VALUES)
+            .withPlotInfo(plotInfo)
             .build()
     );
   }
@@ -77,8 +79,8 @@ public class ArrayPlotDataBuilderTest {
     );
 
     PlotData plotData = PlotDataBuilder.builder()
-        .withPlotInfo(plotInfo)
         .withArray(STANDARD_PLOT_VALUES)
+        .withPlotInfo(plotInfo)
         .build();
     assertFalse(plotData.isEmpty());
     assertEquals(PlotType.STANDARD, plotData.getPlotType());
@@ -100,8 +102,8 @@ public class ArrayPlotDataBuilderTest {
     assertThrows(
         NoGroupingFunctionProvidedException.class,
         () -> PlotDataBuilder.builder()
-            .withPlotInfo(plotInfo)
             .withArray(AGGREGATION_PLOT_VALUES)
+            .withPlotInfo(plotInfo)
             .build()
     );
   }
@@ -116,8 +118,8 @@ public class ArrayPlotDataBuilderTest {
     );
 
     PlotData plotData = PlotDataBuilder.builder()
-        .withPlotInfo(plotInfo)
         .withArray(AGGREGATION_PLOT_VALUES)
+        .withPlotInfo(plotInfo)
         .build();
 
     assertFalse(plotData.isEmpty());
@@ -138,8 +140,8 @@ public class ArrayPlotDataBuilderTest {
     );
 
     PlotData plotData = PlotDataBuilder.builder()
-        .withPlotInfo(plotInfo)
         .withArray(AGGREGATION_PLOT_VALUES)
+        .withPlotInfo(plotInfo)
         .build();
 
     assertFalse(plotData.isEmpty());
@@ -160,8 +162,8 @@ public class ArrayPlotDataBuilderTest {
     );
 
     PlotData plotData = PlotDataBuilder.builder()
-        .withPlotInfo(plotInfo)
         .withArray(AGGREGATION_PLOT_VALUES)
+        .withPlotInfo(plotInfo)
         .build();
 
     assertFalse(plotData.isEmpty());
@@ -182,8 +184,8 @@ public class ArrayPlotDataBuilderTest {
     );
 
     PlotData plotData = PlotDataBuilder.builder()
-        .withPlotInfo(plotInfo)
         .withArray(AGGREGATION_PLOT_VALUES)
+        .withPlotInfo(plotInfo)
         .build();
 
     assertFalse(plotData.isEmpty());
@@ -192,6 +194,26 @@ public class ArrayPlotDataBuilderTest {
     assertEquals("Score", plotData.getValuesSeries().getName());
     assertIterableEquals(Arrays.asList(15.0, 50.0), plotData.getValuesSeries().getValues());
     assertIterableEquals(Arrays.asList("Adam", "Ann"), plotData.getArgSeries().getValues());
+  }
+
+  @Test
+  public void shouldGiveEmptyListForEmptyArray(){
+    PlotInfoDataBuilder<String> builder = PlotDataBuilder.builder()
+        .withArray(null);
+    assertIterableEquals(Collections.emptyList(), builder.extractColumns());
+    builder = PlotDataBuilder.builder()
+        .withArray(new String[][]{});
+    assertIterableEquals(Collections.emptyList(), builder.extractColumns());
+    builder = PlotDataBuilder.builder()
+        .withArray(new String[][]{{}});
+    assertIterableEquals(Collections.emptyList(), builder.extractColumns());
+  }
+
+  @Test
+  public void shouldExtractCorrectlyHeadersFromArray(){
+    PlotInfoDataBuilder<String> builder = PlotDataBuilder.builder()
+        .withArray(STANDARD_PLOT_VALUES);
+    assertIterableEquals(Arrays.asList("Name", "Hour"), builder.extractColumns());
   }
 
 }

@@ -2,12 +2,13 @@ package pl.delukesoft.jplotlib.plotops.transformation;
 
 import static java.util.stream.Collectors.toList;
 
-import pl.delukesoft.jplotlib.exception.ColumnNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 import lombok.extern.slf4j.Slf4j;
+import pl.delukesoft.jplotlib.exception.ColumnNotFoundException;
 import pl.delukesoft.jplotlib.model.enums.ColumnType;
 import pl.delukesoft.jplotlib.model.input.PlotInfo;
 import pl.delukesoft.jplotlib.model.output.PlotData;
@@ -46,9 +47,12 @@ public class ArrayTransformationHelper extends TransformationHelper {
     }
   }
 
-  private List<String> extractColumnNames(String[][] array) {
-    String[] headerArray = array[0];
-    return Arrays.asList(headerArray);
+  public List<String> extractColumnNames(String[][] array) {
+    if (array == null || array.length == 0 || array[0].length == 0) {
+      return Collections.emptyList();
+    } else {
+      return Arrays.asList(array[0]);
+    }
   }
 
   List<Number> extractValuesFromColumn(

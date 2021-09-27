@@ -29,8 +29,8 @@ public class CsvPlotDataBuilderTest {
         new SeriesInfo("Age", ColumnType.INTEGER)
     );
     PlotData plotData = PlotDataBuilder.builder()
-        .withPlotInfo(plotInfo)
         .withFilePath(path)
+        .withPlotInfo(plotInfo)
         .build();
     assertEquals(PlotType.STANDARD, plotData.getPlotType());
     assertFalse(plotData.isEmpty());
@@ -52,8 +52,8 @@ public class CsvPlotDataBuilderTest {
         new SeriesInfo("Age", ColumnType.INTEGER)
     );
     PlotData plotData = PlotDataBuilder.builder()
-        .withPlotInfo(plotInfo)
         .withFilePathAndDelimiter(path, ";")
+        .withPlotInfo(plotInfo)
         .build();
     assertEquals(PlotType.STANDARD, plotData.getPlotType());
     assertFalse(plotData.isEmpty());
@@ -75,8 +75,8 @@ public class CsvPlotDataBuilderTest {
         new SeriesInfo("Age", ColumnType.INTEGER)
     );
     Assertions.assertThrows(CsvNotExistingException.class, () -> PlotDataBuilder.builder()
-        .withPlotInfo(plotInfo)
         .withFilePathAndDelimiter(path, ";")
+        .withPlotInfo(plotInfo)
         .build());
   }
 

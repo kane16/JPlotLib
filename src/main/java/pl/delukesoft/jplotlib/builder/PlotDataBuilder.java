@@ -5,8 +5,8 @@ package pl.delukesoft.jplotlib.builder;
  */
 public class PlotDataBuilder {
 
-  public static PlotInfoDataBuilder builder(){
-    return new PlotInfoDataBuilder();
+  public static InputPlotDataBuilder builder(){
+    return new InputPlotDataBuilder();
   }
 
 }
